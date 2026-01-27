@@ -1,0 +1,40 @@
+name: Lint code & compile test
+
+on:
+  workflow_call:
+    inputs:
+      RUNNER:
+        description: "Runner to use"
+        type: string
+        required: false
+        default: 'ubuntu-latest'
+      SKIP_LINT:
+        description: "Skip lint step"
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  build:
+    runs-on: ${{ inputs.RUNNER }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+          registries: |
+            https://registry.npmjs.org/
+            @nusabelajar:https://npm.pkg.github.com/|$GITHUB_TOKEN
+
+      - name: Installing dependencies (bun)
+        run: bun install
+
+      - name: Lint code (bun)
+        if: ${{ inputs.SKIP_LINT != true }}
+        run: bun run lint
+
+      - name: Build Code (bun)
+        run: bun run build
