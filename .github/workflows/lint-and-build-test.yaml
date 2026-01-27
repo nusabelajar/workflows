@@ -41,7 +41,7 @@ jobs:
       - name: Installing dependencies (bun)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BUN_AUTH_TOKEN: ${{ secrets.BUN_AUTH_TOKEN }}
+          BUN_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_USERCONFIG: ~/.npmrc
         run: bun install --frozen-lockfile
 
