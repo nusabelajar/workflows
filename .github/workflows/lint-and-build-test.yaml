@@ -33,6 +33,7 @@ jobs:
         run: bun install --frozen-lockfile
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUN_AUTH_TOKEN: ${{ secrets.BUN_AUTH_TOKEN }}
 
       - name: Lint code (bun)
         if: ${{ inputs.SKIP_LINT != true }}
