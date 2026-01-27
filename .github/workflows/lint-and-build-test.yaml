@@ -29,6 +29,15 @@ jobs:
             https://registry.npmjs.org/
             @nusabelajar:https://npm.pkg.github.com/|$GITHUB_TOKEN
 
+      - name: Check if .ci.npmrc exists
+        run: |
+          if [ -f .ci.npmrc ]; then
+            echo ".ci.npmrc file found. Copying to home directory."
+            cp .ci.npmrc ~/.npmrc
+          else
+            echo ".ci.npmrc file not found. Skipping copy."
+          fi
+
       - name: Installing dependencies (bun)
         run: bun install --frozen-lockfile
         env:
