@@ -21,14 +21,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@3d267786b128fe76c2f16a390aa2448b815359f3 # v2
-        with:
-          bun-version: latest
-          registries: |
-            https://registry.npmjs.org/
-            @nusabelajar:https://npm.pkg.github.com/|$GITHUB_TOKEN
-
       - name: Check if .ci.npmrc exists
         run: |
           if [ -f .ci.npmrc ]; then
@@ -39,10 +31,11 @@ jobs:
           fi
 
       - name: Installing dependencies (bun)
-        run: bun install --frozen-lockfile
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BUN_AUTH_TOKEN: ${{ secrets.BUN_AUTH_TOKEN }}
+          NPM_CONFIG_USERCONFIG: ~/.npmrc
+        run: bun install --frozen-lockfile
 
       - name: Lint code (bun)
         if: ${{ inputs.SKIP_LINT != true }}
