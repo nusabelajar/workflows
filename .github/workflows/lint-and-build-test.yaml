@@ -30,12 +30,11 @@ jobs:
 
       - name: Login to GitHub Packages (bun)
         run:
-          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo "//npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}" >> .npmrc
 
       - name: Installing dependencies (bun)
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_USERCONFIG: .npmrc
         run: bun install --frozen-lockfile
 
