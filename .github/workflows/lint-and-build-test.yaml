@@ -30,6 +30,11 @@ jobs:
             echo ".ci.npmrc file not found. Skipping copy."
           fi
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@3d267786b128fe76c2f16a390aa2448b815359f3 # v2
+        with:
+          bun-version-file: .bun-version
+
       - name: Installing dependencies (bun)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
