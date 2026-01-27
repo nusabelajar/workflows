@@ -26,11 +26,12 @@ jobs:
         with:
           bun-version: latest
           registries: |
-            https://registry.npmjs.org/
             @nusabelajar:https://npm.pkg.github.com/|$GITHUB_TOKEN
 
       - name: Installing dependencies (bun)
-        run: bun install
+        run: bun install --frozen-lockfile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint code (bun)
         if: ${{ inputs.SKIP_LINT != true }}
