@@ -14,11 +14,12 @@ on:
         required: false
         default: false
 
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   build:
-    permissions:
-      contents: read
-      packages: read
     runs-on: ${{ inputs.RUNNER }}
     steps:
       - name: Checkout repository
