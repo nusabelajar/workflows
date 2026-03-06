@@ -13,6 +13,9 @@ on:
         type: boolean
         required: false
         default: false
+    secrets:
+      GH_TOKEN:
+        required: false
 
 permissions:
   contents: read
@@ -28,13 +31,14 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@3d267786b128fe76c2f16a390aa2448b815359f3 # v2
 
-      - name: Login to GitHub Packages (bun)
-        run:
-          echo "//npm.pkg.github.com/:_authToken=\${GITHUB_TOKEN}" >> .npmrc
+      - name: Login to GitHub Packages
+        run: echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
 
       - name: Installing dependencies (bun)
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
         run: bun install --frozen-lockfile
 
       - name: Lint code (bun)
