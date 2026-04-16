@@ -13,6 +13,11 @@ on:
         type: boolean
         required: false
         default: false
+      VERBOSE:
+        description: "Enable verbose output for installation"
+        type: boolean
+        required: false
+        default: false
     secrets:
       GH_TOKEN:
         required: false
@@ -39,7 +44,7 @@ jobs:
       - name: Installing dependencies (bun)
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
-        run: bun install --frozen-lockfile
+        run: bun install --frozen-lockfile ${{ inputs.VERBOSE && '--verbose' || '' }}
 
       - name: Lint code (bun)
         if: ${{ inputs.SKIP_LINT != true }}
